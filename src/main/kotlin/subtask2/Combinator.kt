@@ -8,12 +8,12 @@ class Combinator {
         var n: Long = array.last().toLong()
 
 
-        var m = n.factorial() / result
+        var m = n.factorial(result)
 
         for (i in 0..m) {
             val x = (n-i).factorial() * i.factorial()
             if (x == m)
-                return i.toInt()
+                return if (i.toInt() == 0) null else i.toInt()
         }
 
         return null
@@ -30,11 +30,17 @@ fun Int.factorial() : Int {
     return result
 }
 
-fun Long.factorial() : Long {
+fun Long.factorial(test: Int = 1) : Long {
+    var isDivided = false
     var result: Long = 1
 
     for (i in 1..this) {
         result *= i
+
+        if (!isDivided && result.toDouble() % test == 0.toDouble()) {
+            isDivided = true
+            result = result / test
+        }
     }
 
     return result
